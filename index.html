@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shadow Domain</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <div class="card">
+    <div class="avatar-box">
+      <img src="avatar.jpg" alt="Profile" class="avatar">
+    </div>
+
+    <h2 class="username">Pandaboy</h2>
+    <p class="subtitle">banyak orang berpikir faktor putus cuma karena selingkuh padahal gapernah sesimpel itu</p>
+
+    <div class="social-box">
+      <a href="https://open.spotify.com/user/314abw45a7m4azxwsjjq6lhsah4a?si=Q0TEKbSoRkKhkqQLkaaVGw&utm_source=copy-link&sci=spotify%3Acard-config%3A7jJ9gvpdv9zK8rkv0tTfh7" target="_blank" class="social-btn spotify">
+        <i class="fa-brands fa-spotify"></i>
+      </a>
+      <a href="https://github.com/pandaboy477" target="_blank" class="social-btn whatsapp">
+        <i class="fa-brands fa-github"></i>
+      </a>
+    </div>
+
+    <div class="view-count">
+      <i class="fa-regular fa-eye"></i>
+      <span>10,526</span>
+    </div>
+
+    <div class="music-player">
+      <img src="music/cover.jpg" alt="Album Cover" class="cover-art">
+      
+      <div class="track-info">
+        <span class="song-title">Breathe</span>
+        <div class="time-bar">
+          <span id="current-time">0:00</span>
+          <input type="range" id="seek-bar" value="0" min="0" step="0.1">
+          <span id="duration">0:00</span>
+        </div>
+      </div>
+
+  <audio id="audio-player" src="music/song.mp3"></audio>
+
+  <script>
+const audio = document.getElementById('audio-player');
+const seekBar = document.getElementById('seek-bar');
+const currentTimeEl = document.getElementById('current-time');
+const durationEl = document.getElementById('duration');
+
+// Klik di mana saja pada layar untuk memutar lagu
+document.addEventListener('click', () => {
+  audio.play();
+}, { once: true }); 
+// Note: { once: true } membuat perintah klik ini hanya berjalan 1 kali saja saat pertama kali layar disentuh
+
+// Logika slider/seek bar tetap sama
+audio.addEventListener('loadedmetadata', () => {
+  seekBar.max = audio.duration;
+  durationEl.textContent = formatTime(audio.duration);
+});
+
+audio.addEventListener('timeupdate', () => {
+  seekBar.value = audio.currentTime;
+  currentTimeEl.textContent = formatTime(audio.currentTime);
+});
+
+seekBar.addEventListener('input', () => {
+  audio.currentTime = seekBar.value;
+});
+
+function formatTime(seconds) {
+  const min = Math.floor(seconds / 60);
+  const sec = Math.floor(seconds % 60);
+  return `${min}:${sec < 10 ? '0' : ''}${sec}`;
+}
+
+    function formatTime(seconds) {
+      const min = Math.floor(seconds / 60);
+      const sec = Math.floor(seconds % 60);
+      return `${min}:${sec < 10 ? '0' : ''}${sec}`;
+    }
+  </script>
+</body>
+</html>
