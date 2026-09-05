@@ -51,11 +51,22 @@ const seekBar = document.getElementById('seek-bar');
 const currentTimeEl = document.getElementById('current-time');
 const durationEl = document.getElementById('duration');
 
-// Klik di mana saja pada layar untuk memutar lagu
-document.addEventListener('click', () => {
+// Fungsi untuk memutar lagu saat layar diklik
+const playMusicOnce = (event) => {
+  // 1. Cek apakah yang diklik adalah link sosial media (tag <a> atau icon di dalamnya)
+  if (event.target.closest('a')) {
+    return; // Berhenti di sini, jangan putar musik dan jangan hapus fungsi klik
+  }
+  
+  // 2. Jika yang diklik BUKAN link, putar lagu
   audio.play();
-}, { once: true }); 
-// Note: { once: true } membuat perintah klik ini hanya berjalan 1 kali saja saat pertama kali layar disentuh
+  
+  // 3. Hapus perintah ini agar klik di layar selanjutnya tidak memicu fungsi ini lagi
+  document.removeEventListener('click', playMusicOnce);
+};
+
+// Tambahkan event listener ke layar tanpa { once: true }
+document.addEventListener('click', playMusicOnce);
 
 // Logika slider/seek bar tetap sama
 audio.addEventListener('loadedmetadata', () => {
